@@ -12,6 +12,7 @@ const Header = () => {
         </Link>
         <Link className={styles.login} to="/login">Login / Sign In</Link>
       </nav>
+      {/* TODO fazer header pos Auth */}
     </header>
   );
 };
