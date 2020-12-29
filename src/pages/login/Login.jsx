@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, useRouteMatch, Navigate } from "react-router-dom";
+import { Route, Switch, useRouteMatch, Redirect } from "react-router-dom";
 import { UserContext } from "../../UserContext";
 import styles from "./Login.module.css";
 import LoginForm from "./LoginForm";
@@ -11,7 +11,7 @@ const Login = () => {
   let match = useRouteMatch();
   const { login } = React.useContext(UserContext);
 
-  if (login === true) return <Navigate to="/profile" />
+  if (login === true) return <Redirect to="/profile" />
 
   return (
     <div className={styles.login}>

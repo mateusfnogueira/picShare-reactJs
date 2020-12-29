@@ -1,6 +1,6 @@
 import React from "react";
 import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from "./api";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export const UserContext = React.createContext();
 
@@ -9,20 +9,19 @@ export const UserStorage = ({ children }) => {
   const [login, setLogin] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
-  const navigate = useNavigate();
+  const history = useHistory();
 
-  const userLogout = React.useCallback(
-    async function () {
-      setData(null);
-      setError(null);
-      setLoading(false);
-      setLogin(false);
-      window.localStorage.removeItem("token");
-      navigate("/login");
-    },
-    [navigate]
-  );
 
+  async function userLogout() {
+    setData(null);
+    setError(null);
+    setLoading(false);
+    setLogin(false);
+    window.localStorage.removeItem("token");
+    history("/login");
+  }
+
+  // TODO resolver bug com o history
   async function getUser(token) {
     const { url, options } = USER_GET(token);
     const response = await fetch(url, options);
@@ -41,7 +40,7 @@ export const UserStorage = ({ children }) => {
       const { token } = await tokenRes.json();
       window.localStorage.setItem("token", token);
       await getUser(token);
-      navigate("/profile");
+      history("/profile");
     } catch (err) {
       setError(err.message);
       setLogin(false);
